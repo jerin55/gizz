@@ -1,0 +1,77 @@
+{% extends "network/layout2.html" %}
+
+{% load static %}
+
+{% block title %}
+    
+{% endblock %}
+
+{% block script %}
+ 
+{% endblock %}
+
+{% block body %}
+    <div class="user-box" style="margin-top: 6vh;">
+        <div>
+            <center>
+                <img src="{% static 'network/images/git.jpeg' %}" height="45em" style="margin-bottom: 2vh;border-radius: 6px;">
+                <h3></h2><br>
+            </center>
+        </div>
+    
+        <form action="{% url 'create_pagepost' pg.id %}" method="post" id="ji" style="width: 100%;margin-bottom: 5vh;"  enctype="multipart/form-data">
+            {% csrf_token %}
+            <!-- <div class="form-group">
+                <div class="form-row align-items-center">
+                <div class="col-sm-6 my-1">
+                    <input class="form-control inp fname" type="text" name="Product_Name" placeholder="Title  *" autocomplete="off" autofocus>
+                    <span class="star small"></span>
+                </div>
+                <div class="col-sm-6 my-1">
+                    <textarea class="form-control inp lname" type="text" name="Product_Description" placeholder="Discription *" autocomplete="off"></textarea>
+                    <span class="star small"></span>
+                </div>
+            </div>
+            </div> -->
+            <div class="form-group">
+            <input type="text" class="form-control" value="{{  pg.pagename }}" name="page_name" required readonly ></div>
+            <div class="form-group">
+                <input class="form-control inp usrname" type="text" name="content_text" placeholder="Description" autocomplete="off">
+                <span class="star small">{{message}}</span>
+            </div>
+            <div class="form-group">
+                <input class="form-control inp usrname" type="date" name="date_created" placeholder="date *" autocomplete="off">
+                <span class="star small">{{message}}</span>
+            </div>
+        
+            <div class="form-group">
+                <div class="custom-file">
+                    <input type="file" name="content_image" class="form-control custom-file-input" id="cover" accept="image/jpeg,image/png,image/webp,image/gif" data-focusable="true" aria-describedby="inputGroupFileAddon01">
+                    <label class="custom-file-label" for="cover"><span style="color: #6c757d;">Choose cover picture<span></label>
+                    <span class="star small"></span>
+                </div>
+            </div>
+            <div style="width: 130px;" class="form-group ">
+                <select name="status" id="" class="under form-control " style="color: black;" name="status" >
+                    <option class="form-control" value="nsale">Not For Sale</option>
+                    <option class="form-control" value="sale">Sale</option>
+                </select>
+            </div>
+            <div class="detail" id="detail1" >
+                <input name="Product_Price" placeholder="Enter price..." class="form-control" style="width: 130px;" >
+            </div>
+            
+
+
+            <center>
+                <input class="btn btn-primary" type="submit" value="Post" style="margin-top: 10px; width: 95%;" >
+            </center>
+        </form>
+    
+        <div>
+            <center>
+              
+            </center>
+        </div><br><br>
+    </div>
+{% endblock %}
