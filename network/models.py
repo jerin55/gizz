@@ -34,6 +34,7 @@ class page(models.Model):
     pagename=models.CharField(max_length=255,null=True)
     website=models.CharField(max_length=255,null=True)
     category=models.CharField(max_length=255,null=True)
+    
     emial=models.CharField(max_length=255,null=True)
     image=models.ImageField(upload_to='posts/', blank=True)          
 
@@ -85,10 +86,7 @@ class Follower(models.Model):
 
     def __str__(self):
         return f"User: {self.user}"
-        
-
-
-
+    
 
 
 class sell(models.Model):
@@ -115,12 +113,6 @@ class pageposts(models.Model):
 
 
 
-class Member(models.Model):
-    user= models.ForeignKey(User,on_delete=models.CASCADE,null=True)  
-    phone = models.TextField()
-
-
-
 class Category(models.Model):
     Category_Name = models.CharField(max_length=255)
 
@@ -128,24 +120,6 @@ class Category(models.Model):
         return self.Category_Name
 
 
-class Product(models.Model):
-    creater = models.ForeignKey(User, on_delete=models.CASCADE,null=True)
-    Product_Name = models.CharField(max_length=150)
-    Product_Image = models.ImageField(upload_to='posts',null=True)
-    Product_Description = models.TextField()
-    date_created = models.DateTimeField(default=timezone.now)
-    Product_Price = models.IntegerField()
-   
-
-    def __str__(self):
-        return self.Product_Name 
-
-
-class Zip(models.Model):
-    zip_code = models.IntegerField()
-
-    def __str__(self):
-        return self.zip_code
 
 
     
@@ -200,9 +174,58 @@ class Order(models.Model):
 class Order_Item(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)  
     order = models.ForeignKey(Order,on_delete=models.CASCADE) 
-    product = models.ForeignKey(Product,on_delete=models.CASCADE)
+    product = models.ForeignKey(Post,on_delete=models.CASCADE)
     price = models.IntegerField(null=False)
     quanty = models.IntegerField(null=False)   
 
 
 
+
+RATE_CHOICES = [
+    (1,'1 - Bad'),
+    (2, '2 -OK'),
+    (3, '3 -Good'),
+    (4, '4 -Very Good'),
+    (5, '5 -Perfect')
+
+]
+
+
+class review(models.Model):
+    user=models.ForeignKey(User,on_delete=models.CASCADE,null=True)
+    post=models.ForeignKey(Post,on_delete=models.CASCADE,null=True)
+    body=models.TextField()
+    date_added=models.DateField()
+    rating=models.PositiveIntegerField(choices=RATE_CHOICES,null=True)
+
+
+
+
+RATING = [
+    (1,'1 - Bad'),
+    (2, '2 -OK'),
+    (3, '3 -Good'),
+    (4, '4 -Very Good'),
+    (5, '5 -Perfect')
+]
+
+class Rating(models.Model):
+    rate = models.PositiveIntegerField(choices=RATING,null=True)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE,null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE,null=True)    
+
+    
+
+
+class Friendrequest(models.Model):
+    from_user=models.ForeignKey(User,on_delete=models.CASCADE,related_name="from_user",null=True)
+    to_user=models.ForeignKey(User,on_delete=models.CASCADE,related_name="to_user",null=True)     
+
+
+
+
+class share(models.Model):
+    user=models.ForeignKey(User,on_delete=models.CASCADE,null=True)
+    post=models.ForeignKey(Post,on_delete=models.CASCADE,null=True)
+    date=models.DateField(null=True)
+    discription=models.CharField(max_length=255,null=True)
